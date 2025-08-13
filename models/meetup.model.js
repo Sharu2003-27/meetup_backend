@@ -43,7 +43,12 @@ const meetupSchema = new mongoose.Schema({
   address: {
     type: String,
     required: true
-  }
+  },
+  speakers: [{
+      name: String,
+      designation: String,
+      imageUrl: String
+    }]
 })
 
 const MeetupEvent = mongoose.model("MeetupEvent", meetupSchema)
