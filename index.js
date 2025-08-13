@@ -30,6 +30,23 @@ app.get("/events/:eventId", async (req, res) => {
   }
 })
 
+app.post("/events/:eventId/speakers", async (req, res) => {
+  try {
+   const { name, designation, imageUrl } = req.body;
+
+   const event = await MeetupEvent.findById(req.params.eventId);
+
+    if (!event) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+    event.speakers.push({ name, designation, imageUrl });
+    const updatedEvent = await event.save();
+    res.status(200).json({message: "Speaker updated successfully.", event: updatedEvent});
+  } catch (error) {
+    res.status(500).json({error: "Error in updating data."})
+  }
+})
+
 app.post("/events", async (req, res) => {
     try {
         const meetupEvent = new MeetupEvent(req.body)
